@@ -1,0 +1,20 @@
+<html> 
+        <head>
+            
+        </head>
+        <body>
+            <canvas id="paper" width="400" height="400">
+                
+            </canvas>
+        </body>
+        <script>
+                let canvas = document.getElementById("paper")
+                let ctx = canvas.getContext('2d')
+                let x = 0 ; 
+                function draw(){
+                    ctx.fillStyle = 'blue'
+                    ctx.fillRect(x,10,5,5)
+                }
+                draw()
+            </script>
+</html>
