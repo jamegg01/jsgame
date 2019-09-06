@@ -1,0 +1,79 @@
+<html>
+    <head>       
+    </head>
+    <body>
+        <canvas id="paper" width="800" height="800">            
+        </canvas>
+    </body>
+    <script>
+        let canvas = document.getElementById("paper")
+        let ctx = canvas.getContext('2d')
+        class Sprite {
+            constructor(color, x, y, heading ,speed){
+                this.color = color
+                this.y = y
+                this.x = x
+                this.speed = speed
+                this.heading = heading
+                //this.directionx = directionx
+                //this.moveX = moveX
+                //this.moveY = moveY
+                //this.directiony = directiony
+            }
+            moveAndPaint(diff){                
+                ctx.fillStyle = this.color
+                ctx.fillRect(this.x, this.y, 15,15)            
+                if(this.x >= canvas.width || this.y >= canvas.height ){
+                    this.heading +=90
+                }else if( this.x <= 0 || this.y <= 0 ){
+                    this.heading -= 90
+                }
+                /*if(this.x >= 800)
+                    this.directionx = -1
+                else if(this.x <= 0)
+                    this.directionx = 1
+                    else if (this.y >= 800 )
+                    this.directiony = -1 
+                    else if (this.y <= 0 )
+                    this.directiony = 1*/
+                let s = (this.speed * diff)/1000 //s = vt
+                let degree = Math.PI * this.heading / 100 ;
+                this.x -= Math.round(Math.sin(degree) * s)
+                this.y -= Math.round(Math.cos(degree) * s)
+
+                this.x = Math.min(this.x,canvas.width)
+                this.x = Math.max(this.x,0)
+                this.y = Math.min(this.y,canvas.height)
+                this.y = Math.max(this.y,0)
+            }    
+        }
+        //Sprite ( color , x , y , heading , speed )
+        let sprites = [
+            new Sprite('red', 0, 10, 30 , 100),
+            new Sprite('green', 40, 30, 45 , 200 ),
+            new Sprite('blue', 200, 50, 60 , 250 ),
+            new Sprite('#ee7722', 80, 70, 90 , 250),
+            new Sprite('#00ffff', 300, 90, 53 , 300),
+            new Sprite('#99ffcc', 20 , 70 , 37 , 250) ,
+            new Sprite('#ffcc00', 1 , 100 , -30 , 200),
+            new Sprite('#ffff33', 190 , 0 , -60 , 320),
+            new Sprite('#22cc99', 210 , 0 , -35 , 300),
+            new Sprite('#ff0033', 120 , 0 , -45 , 350),
+            new Sprite('#00ff33', 13 , 0  , -72 , 250),
+            new Sprite('#000000', 10 , 500 , 62 , 200),
+        ]
+        let lastFrameStamp = new Date().getTime()     
+        function draw(){
+            ctx.clearRect(0, 0, canvas.width, canvas.height)
+            let now = new Date().getTime()
+            let diff = now - lastFrameStamp
+            for(let sprite of sprites)
+                sprite.moveAndPaint(diff)
+            
+            window.requestAnimationFrame(draw)
+            lastFrameStamp = now
+        }
+        window.requestAnimationFrame(draw)
+        
+    </script>
+</html>
