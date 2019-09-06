@@ -3,7 +3,7 @@
             
         </head>
         <body>
-            <canvas id="paper" width="400" height="400">
+            <canvas id="paper" width="800" height="800">
                 
             </canvas>
         </body>
@@ -12,20 +12,30 @@
                 let ctx = canvas.getContext('2d')
                 let x = 0 ; 
                 let y = 10 ;
+                let lastFrameStamp = new Date().getTime()
+                let direction = 1 ;
                 function draw(){
                     ctx.clearRect( 0 , 0 , canvas.width , canvas.height)
-                    ctx.fillStyle = 'blue'
-                    ctx.fillRect(x,y,20,20 );
-                    x= x + 5 ;
-                    if (x >= 400){
-                        y = y + 20 ;
-                        x = 0 ;
-                    }
-                    if (y >= 400){
-                        x = 0
+                    ctx.fillStyle = 'red'
+                    ctx.fillRect(x,y,25,30 );                    
+                    if (y <= 0 ){
+                        direction = 1
                         y = 0
                     }
+                    if( x >= 800 & y >= 800 ){
+                        direction = -1 
+                    }
+                    if ( x >= 800 & y <= 0 ){
+                        direction = -1
+                    }
+                    let now = new Date().getTime();
+                    let diff = now - lastFrameStamp;
+                    let s = 1000  * (diff/1000) // s = vt
+                    y = y + ( direction * s ) 
+                    x = x + ( direction * s ) 
+                    window.requestAnimationFrame(draw);
+                    lastFrameStamp = now 
                 }
-                setInterval(draw,10)
+                window.requestAnimationFrame(draw);
             </script>
 </html>

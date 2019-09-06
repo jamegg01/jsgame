@@ -11,12 +11,25 @@
                 let canvas = document.getElementById("paper")
                 let ctx = canvas.getContext('2d')
                 let x = 0 ; 
+                let direction = 1 ;
+                let lastFrameStamp = new Date().getTime()
                 function draw(){
                     ctx.clearRect( 0 , 0 , canvas.width , canvas.height)
                     ctx.fillStyle = 'red'
-                    ctx.fillRect(x,10,20,20 );
-                    x= x + 5
+                    ctx.fillRect(x,10,10,10 );
+                    if(x>= 400){
+                        direction = -1 ;
                     }
-                setInterval(draw,500)
+                    else if(x <= 0){
+                        direction = 1
+                    }
+                    let now = new Date().getTime();
+                    let diff = now - lastFrameStamp;
+                    let s = 500 * (diff/1000) // s = vt
+                    x = x + ( direction * s )
+                    window.requestAnimationFrame(draw);
+                    lastFrameStamp = now 
+                    }
+                window.requestAnimationFrame(draw);
             </script>
 </html>
